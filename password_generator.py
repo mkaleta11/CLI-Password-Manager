@@ -1,5 +1,4 @@
-### This is a simple password generator using my own algorithm and using the secrets and string module
-
+### This is a simple password generator using my own algorithm that uses the secrets and string module
 import secrets
 import string
 
@@ -14,7 +13,7 @@ def fisher_yates_shuffle(arr):
 
 def password_generator():
     '''
-    Generating a strong password containing 12-18 letters.
+    Generating a strong password containing 14-18 letters.
     With at least 1 digit, letter and special character.
     '''
     passwordArray = []
@@ -22,7 +21,7 @@ def password_generator():
     numbers = string.digits
     specialCharacters = list('!@#$%^&*_+=-[],.?><')
     
-    lengthOfPassword = secrets.choice(range(12,19))
+    lengthOfPassword = secrets.choice(range(14,19))
 
     # Include every type of character 
     passwordArray.append(secrets.choice(letters))
