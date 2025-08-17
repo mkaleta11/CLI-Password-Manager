@@ -13,7 +13,7 @@ Access is protected by a master password secured with Argon2id.
 py main.py
 
 # Requirements
-cryptography
+pip install cryptography
 
 # IMPORTANT
 The first time you run the program the master password you provide will be your master password for future use. 
