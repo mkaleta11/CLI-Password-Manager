@@ -1,5 +1,6 @@
 # Password manager class with all methods that create the functionality of the manager
 import password_generator
+import getpass
 
 class PasswordManager():
     def __init__(self):
@@ -26,7 +27,7 @@ class PasswordManager():
             user_choice = input(f'A password for {user_input} already exists. Do you want to overwrite it? (y/n): ')
             user_choice = user_choice.lower()
             if user_choice != 'y':
-                print('Exiting the script!')
+                print('Password not overwritten.')
                 return passwords
         passwords[user_input] = password_generator.password_generator()
         return passwords 
@@ -50,4 +51,10 @@ class PasswordManager():
         else:
             print(f'No password found for {userInput}')
         return passwords
-        
+    
+    def change_master_password(self):
+        print('After you enter your new master password the program will exit' \
+        ' and your next login will be done using the new master password.')
+        new_master_password = getpass.getpass('(User input hidden for security) Enter new master password: ')
+        return new_master_password
+

@@ -1,5 +1,5 @@
 # CLI-Password-Manager
-A simple CLI password manager that lets you add, delete, and view passwords. 
+A simple CLI password manager that lets you add, delete, view passwords or change the master password. 
 Strong passwords are generated automatically and all data is stored in an AES-GCM encrypted file. 
 Access is protected by a master password secured with Argon2id.
 
@@ -18,7 +18,7 @@ pip install cryptography
 # IMPORTANT
 The first time you run the program the master password you provide will be your master password for future use. 
 The data is encrypted using this exact master password. 
-You must remember the master password because without it you cannot access your passwords.
-If you forget the master password you will lose all your passwords.
-The master password cannot be changed.
+You must remember the master password because without it you cannot access your password database.
+If you forget the master password you will lose access to that database.
+You can change the master password but only after logging into the database.
 THIS IS FOR SECURITY REASONS TO MAKE THE MANAGER AS SECURE AS POSSIBLE.
