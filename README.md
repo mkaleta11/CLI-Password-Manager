@@ -6,14 +6,15 @@ Access is protected by a master password secured with Argon2id.
 # Features
 - Generate strong passwords
 - Add, delete, and view saved passwords
+- Change master password
 - Encrypted storage with AES-GCM
 - Master password protected with Argon2
 
 # How to run
-py main.py
+py main.py or python3 main.py
 
 # Requirements
-pip install cryptography
+pip install requirements.txt
 
 # IMPORTANT
 The first time you run the program the master password you provide will be your master password for future use. 
