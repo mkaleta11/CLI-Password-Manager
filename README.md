@@ -1,12 +1,21 @@
 # CLI-Password-Manager
-A simple CLI password manager that lets you add, delete, view passwords or change the master password. 
-Strong passwords are generated automatically and all data is stored in an AES-GCM encrypted file. 
+A CLI password manager that lets you:
+- add automatically generated strong passwords
+- add your custom password
+- delete password 
+- view all passwords
+- change the master password
+- change the file path on which the password database file is saved on
+. 
+Strong passwords are generated automatically using my own effective algorithm. 
+All data is stored in an AES-GCM encrypted file. 
 Access is protected by a master password secured with Argon2id.
 
 # Features
 - Generate strong passwords
 - Add, delete, and view saved passwords
 - Change master password
+- Change file path
 - Encrypted storage with AES-GCM
 - Master password protected with Argon2
 
@@ -14,7 +23,7 @@ Access is protected by a master password secured with Argon2id.
 py main.py or python3 main.py
 
 # Requirements
-pip install requirements.txt
+pip install -r requirements.txt
 
 # IMPORTANT
 The first time you run the program the master password you provide will be your master password for future use. 

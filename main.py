@@ -3,8 +3,11 @@ from password_manager_class import PasswordManager
 import os
 import getpass
 import cryptography_functions
-PASSWORDS_FILE = 'passwords.dat'
+
+with open('password_database_path.txt', 'r') as f:
+    PASSWORDS_FILE = f.read().strip()
 change_master_password = False
+change_database_path = False
 password_manager = PasswordManager()
 
 def menu(passwords):
@@ -14,10 +17,13 @@ def menu(passwords):
     print('-------------------------------------------------------------')
     print('Welcome to LockVault!\nHere is a list of all options in the password manager:' \
     '\n1. Generating a new password' \
-    '\n2. Deleting a password' \
-    '\n3. Viewing all passwords' \
-    '\n4. Changing the master password' \
-    '\n5. Exiting the program')
+    '\n2. Add a custom password' \
+    '\n3. Deleting a password' \
+    '\n4. Viewing all passwords' \
+    '\n5. Exiting the program' \
+    '\n6. Changing the master password' \
+    '\n7. Changing the path to password database')
+
     print('-------------------------------------------------------------')
     while True:
         try:
@@ -28,16 +34,22 @@ def menu(passwords):
             continue
 
         if choice == 1:
-            password_manager.generate_the_password(passwords)
+            password_manager.generate_or_add_password(passwords)
         elif choice == 2:
-            password_manager.delete_password(passwords)
+            password_manager.generate_or_add_password(passwords,if_custom_password=True)
         elif choice == 3:
-            password_manager.view_passwords(passwords)
+            password_manager.delete_password(passwords)
         elif choice == 4:
+            password_manager.view_passwords(passwords)
+        elif choice == 5:
+            break
+        elif choice == 6:
             global change_master_password
             change_master_password = True
             break
-        elif choice == 5:
+        elif choice == 7:
+            global change_database_path
+            change_database_path = True
             break
         else:
             print('Incorrect choice.')
@@ -45,7 +57,12 @@ def menu(passwords):
 
         
 if __name__ == '__main__':
-    master_password = getpass.getpass('(User input hidden for security) Enter master password: ')
+    while True:
+        master_password = getpass.getpass('(User input hidden for security) Enter master password: ')
+        if not master_password:
+            print('Master password cannot be empty!')
+        else:
+            break
 
     if os.path.exists(PASSWORDS_FILE):
         with open(PASSWORDS_FILE,'rb') as f:
@@ -61,6 +78,13 @@ if __name__ == '__main__':
     passwords = menu(passwords)
     if change_master_password:
         master_password = password_manager.change_master_password()
+    
+    if change_database_path:
+        if os.path.exists(PASSWORDS_FILE):
+            os.remove(PASSWORDS_FILE)
+        password_manager.change_database_path()
+        with open('password_database_path.txt', 'r') as f:
+            PASSWORDS_FILE = f.read().strip()
         
     with open(PASSWORDS_FILE, 'wb') as f:
         f.write(cryptography_functions.encrypt_passwords(passwords, master_password))
