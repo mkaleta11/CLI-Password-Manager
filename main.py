@@ -1,6 +1,8 @@
 # Simple CLI password manager where you can add, detele or view passwords.
 from password_manager_class import PasswordManager
 import os
+import sys
+import time
 import getpass
 import cryptography_functions
 
@@ -10,27 +12,56 @@ change_master_password = False
 change_database_path = False
 password_manager = PasswordManager()
 
+def print_banner():
+    banner = r'''
+    ______            _         _   _             _ _   
+    |  _  \          (_)       | | | |           | | |  
+    | | | |_   _ _ __ _ _ __   | | | | __ _ _   _| | |_ 
+    | | | | | | | '__| | '_ \  | | | |/ _` | | | | | __|
+    | |/ /| |_| | |  | | | | | \ \_/ / (_| | |_| | | |_ 
+    |___/  \__,_|_|  |_|_| |_|  \___/ \__,_|\__,_|_|\__|
+    '''
+    textBanner = '✨ Your passwords hidden in a Mithril Vault ✨'
+    for line in banner.splitlines():
+        sys.stdout.write(cyan(f'{line}\n'))
+        sys.stdout.flush()
+        time.sleep(0.05)
+    time.sleep(0.02)
+    print(cyan(textBanner))
+    print()
+
+
+def cyan(text):
+    return f'\033[96m{text}\033[0m'
+
+def red(text):
+    return f'\033[91m{text}\033[0m'
+
+def green(text):
+    return f'\033[92m{text}\033[0m'
+
 def menu(passwords):
     '''
     CLI menu where you can choose to genererate or delete the password
     '''
-    print('-------------------------------------------------------------')
-    print('Welcome to LockVault!\nHere is a list of all options in the password manager:' \
-    '\n1. Generating a new password' \
-    '\n2. Add a custom password' \
-    '\n3. Deleting a password' \
-    '\n4. Viewing all passwords' \
-    '\n5. Exiting the program' \
-    '\n6. Changing the master password' \
-    '\n7. Changing the path to password database')
+    print(cyan('-------------------------------------------------------------'))
+    print(cyan('🔐 Welcome to DurinVault!\nHere is a list of all options in the password manager:'))
+    print(cyan('-------------------------------------------------------------'))
+    print(cyan(
+    '1️⃣  Generating a new password' \
+    '\n2️⃣  Add a custom password' \
+    '\n3️⃣  Deleting a password' \
+    '\n4️⃣  Viewing all passwords' \
+    '\n5️⃣  Exiting the program' \
+    '\n6️⃣  Changing the master password' \
+    '\n7️⃣  Changing the path to password database'))
 
-    print('-------------------------------------------------------------')
+    print(cyan('-------------------------------------------------------------'))
     while True:
         try:
-            
-            choice = int(input('Enter the number of the action: '))
+            choice = int(input(cyan('➡️  Enter the number of the action: ')))
         except ValueError:
-            print('Please enter a valid number.')
+            print(red('❌ Please enter a valid number.'))
             continue
 
         if choice == 1:
@@ -42,6 +73,7 @@ def menu(passwords):
         elif choice == 4:
             password_manager.view_passwords(passwords)
         elif choice == 5:
+            print(cyan('👋 Exiting the program. See you soon!'))
             break
         elif choice == 6:
             global change_master_password
@@ -52,25 +84,36 @@ def menu(passwords):
             change_database_path = True
             break
         else:
-            print('Incorrect choice.')
+            print(red('❌ Incorrect choice.'))
     return passwords
 
         
 if __name__ == '__main__':
+    print_banner()
     while True:
-        master_password = getpass.getpass('(User input hidden for security) Enter master password: ')
+        if not os.path.exists(PASSWORDS_FILE):
+            print(cyan('Set your master password.'))
+            master_password = getpass.getpass(cyan('🔒 (User input hidden for security) Enter master password: '))
+            while True:
+                enter_again = getpass.getpass(cyan('🔒 (User input hidden for security) Enter master password again: '))
+                if enter_again == master_password:
+                    break
+                else:
+                    print(red('❌ Master passwords dont match up. Try again!'))
+        else:
+            master_password = getpass.getpass(cyan('🔒 (User input hidden for security) Enter master password: '))
         if not master_password:
-            print('Master password cannot be empty!')
+            print(red('❌ Master password cannot be empty!'))
         else:
             break
-
+    
     if os.path.exists(PASSWORDS_FILE):
         with open(PASSWORDS_FILE,'rb') as f:
             encrypted_data = f.read()
         try: 
             passwords = cryptography_functions.decrypt_passwords(encrypted_data, master_password)
         except Exception:
-            print('Invalid master password!')
+            print(red('❌ Invalid master password!'))
             exit(1)
     else:
         passwords = {}
