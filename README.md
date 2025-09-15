@@ -95,9 +95,9 @@ python main.py                # Windows
 
 ## Cryptography/Security
 The first time you run the program you set the master password. The master password will derive a unique key with Argon2id a most secure hashing algorithm up-to-date.
-Read more about ![Argon2](https://en.wikipedia.org/wiki/Argon2). 
+Read more about [Argon2](https://en.wikipedia.org/wiki/Argon2). 
 The file will be encrypted with AES-GCM encryption algorithm that needs the key as a parameter to make it unique and not work without the master password.
-Learn about ![AES GCM](https://www.youtube.com/watch?v=-fpVv_T4xwA)
+Learn about [AES GCM](https://www.youtube.com/watch?v=-fpVv_T4xwA)
 All of this makes the database encrypted **without storing the master password anywhere**.
 Then on next runs you will use the master password to decrypt the database.
 
